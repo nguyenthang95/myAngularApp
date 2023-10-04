@@ -17,8 +17,8 @@
       <mat-form-field appearance="outline">
         <mat-label>All</mat-label>
         <mat-select>
-          <mat-option *ngFor="let food of foods" [value]="food.value">
-            {{food.viewValue}}
+          <mat-option *ngFor="let category of BART_CATEGORY_CONSTANTS" [value]="category.id">
+            {{category.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -38,20 +38,16 @@
     <div class="tree">
       <mat-tree [dataSource]="dataSourceTree" [treeControl]="treeControl">
         <!-- This is the tree node template for leaf nodes -->
-        <mat-tree-node aria-expanded="true" *matTreeNodeDef="let node" matTreeNodePadding>
+        <mat-tree-node class="cursor-pointer" aria-expanded="true" *matTreeNodeDef="let node" matTreeNodePadding>
           <!-- use a disabled button to provide padding for tree leaf -->
-          <button mat-icon-button disabled></button>
-          {{node.name}}
+          <span [title]="node.name" class="node-name"> {{node.name}}</span>
         </mat-tree-node>
         <!-- This is the tree node template for expandable nodes -->
-        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-          <button mat-icon-button matTreeNodeToggle
-                  [attr.aria-label]="'Toggle ' + node.name">
-            <mat-icon class="mat-icon-rtl-mirror">
-              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-            </mat-icon>
-          </button>
-          {{node.name}}
+        <mat-tree-node class="cursor-pointer" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+          <mat-icon matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name" class="mat-icon-rtl-mirror">
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+          <span [title]="node.name" class="node-name"> {{node.name}}</span>
         </mat-tree-node>
       </mat-tree>
     </div>
@@ -85,7 +81,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[10, 20,30]"  showFirstLastButtons aria-label="Select page of periodic elements">
+    <mat-paginator [pageSizeOptions]="[10, 20,30]" showFirstLastButtons aria-label="Select page of periodic elements">
     </mat-paginator>
   </div>
 </div>
